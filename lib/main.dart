@@ -1,14 +1,21 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:my_demo/utils/sp_util.dart';
+import 'package:my_demo/web/web_login_page.dart';
 import 'ball_page.dart';
 import 'berser_path_page.dart';
 import 'dart_custom_tree_page.dart';
 import 'margLayer_page.dart';
 import 'popmenu_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SpUtil.getInstance();
   runApp(
     MaterialApp(
+      builder: BotToastInit(),
+      navigatorObservers: [BotToastNavigatorObserver()],
       theme: ThemeData.from(
         colorScheme: const ColorScheme.light(),
       ).copyWith(
@@ -73,6 +80,13 @@ class _TransitionsHomePageState extends State<_TransitionsHomePage> {
                   subtitle: 'test popmenum page ',
                   onTap: () {
                     pushPage(DartTreePage());
+                  },
+                ),
+                _TransitionListTile(
+                  title: 'web page',
+                  subtitle: 'test web page ',
+                  onTap: () {
+                    pushPage(WebLoginPage());
                   },
                 ),
               ],

@@ -18,4 +18,5 @@ class AreaPointEntity with JsonConvert<AreaPointEntity> {
   String? money;
   String? describe;
   List<String> images = [];
+  List<AreaPointEntity> points = [];
 }

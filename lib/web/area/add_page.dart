@@ -44,7 +44,7 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BackImageWidget(
+      body: BackGroundImgWidget(
         fit: BoxFit.cover,
         backImg:
             "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.wendangwang.com%2Fpic%2F819d58faf493da100ce71203%2F1-1262-png_6_0_0_0_0_0_0_1785.824_1262.835-1786-0-0-1786.jpg&refer=http%3A%2F%2Fwww.wendangwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625111663&t=7d43f666640b23377eb72c4e69ac6da6",
@@ -236,11 +236,15 @@ class _AddPageState extends State<AddPage> {
             ),
             content: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CupertinoTextField(
-                onChanged: (value) {
-                  _inputString = value;
-                },
-                // placeholder: '添加图片url',
+              child: Container(
+                width: 300,
+                height: 100,
+                child: CupertinoTextField(
+                  onChanged: (value) {
+                    _inputString = value;
+                  },
+                  // placeholder: '添加图片url',
+                ),
               ),
             ),
             actions: <Widget>[
@@ -296,15 +300,6 @@ class InputWidget extends StatelessWidget {
               decoration: InputDecoration(
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                // focusedBorder: OutlineInputBorder(
-                //   borderRadius: BorderRadius.all(
-                //     Radius.circular(15), // 边角为30
-                //   ),
-                //   borderSide: BorderSide(
-                //     color: Colors.green, // 边框颜色为绿色
-                //     width: 0.5, //宽度为5
-                //   ),
-                // ),
               ),
               autofocus: false,
               onChanged: valueChanged,

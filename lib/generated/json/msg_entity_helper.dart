@@ -4,8 +4,8 @@ msgEntityFromJson(MsgEntity data, Map<String, dynamic> json) {
 	if (json['msgTitle'] != null) {
 		data.msgTitle = json['msgTitle'].toString();
 	}
-	if (json['msgContent'] != null) {
-		data.msgContent = json['msgContent'].toString();
+	if (json['creater'] != null) {
+		data.creater = json['creater'].toString();
 	}
 	if (json['time'] != null) {
 		data.time = json['time'].toString();
@@ -29,7 +29,7 @@ msgEntityFromJson(MsgEntity data, Map<String, dynamic> json) {
 Map<String, dynamic> msgEntityToJson(MsgEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['msgTitle'] = entity.msgTitle;
-	data['msgContent'] = entity.msgContent;
+	data['creater'] = entity.creater;
 	data['time'] = entity.time;
 	data['describe'] = entity.describe;
 	data['up'] = entity.up;

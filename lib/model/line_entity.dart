@@ -12,6 +12,8 @@ class LineEntity with JsonConvert<LineEntity> {
   LineArea? area;
   String? describe;
   String? lineType;
+  String? money;
+  bool isExpand = false;
 }
 
 class LineHotel with JsonConvert<LineHotel> {

@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:my_demo/model/hotel_entity.dart';
+import 'package:my_demo/model/model_helps.dart';
 import 'package:my_demo/stelys/stelys.dart';
-
-import '../web_home_page.dart';
 
 class WebHotelDetailPage<T> extends StatefulWidget {
   WebHotelDetailPage({Key? key, required this.data}) : super(key: key);

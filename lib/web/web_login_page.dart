@@ -6,13 +6,6 @@ import 'package:my_demo/utils/application.dart';
 import 'package:my_demo/web/web_home_page.dart';
 import 'package:my_demo/web/commond/commond.dart';
 
-List<String> webMoudelsBacks = [
-  'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1790597721,3502361807&fm=26&gp=0.jpg',
-  'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1212518464,3076935787&fm=26&gp=0.jpg',
-  'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3309920848,3927301808&fm=26&gp=0.jpg',
-  'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1263019847,4168672104&fm=26&gp=0.jpg',
-];
-
 class WebLoginPage extends StatefulWidget {
   const WebLoginPage({Key? key}) : super(key: key);
 
@@ -38,7 +31,7 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
 
     return Scaffold(
       body: Container(
-        child: BackImageWidget(
+        child: BackGroundImgWidget(
             backImg:
                 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01458b5568504300000127165e28af.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625149800&t=cb54fe96bd6c4f270f086fd5028de289',
             child: Center(
@@ -116,7 +109,7 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
                               if (_loginName == 'admin' && _password == 'admin') {
                                 Application.loginInfo = '管理员';
                                 Application.isAdmin = true;
-                                BotToast.showSimpleNotification(title: "登录成功");
+                                BotToast.showSimpleNotification(title: "管理员    登录");
                                 Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
                                   return WebHomePage();
                                 }));
@@ -137,7 +130,7 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
                                 BotToast.showSimpleNotification(title: "请填写登录名称");
                                 return;
                               }
-                              BotToast.showSimpleNotification(title: "登录成功");
+                              BotToast.showSimpleNotification(title: "欢迎登录", subTitle: _loginName);
                               Application.loginInfo = _loginName;
                               Application.isAdmin = false;
                               Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {

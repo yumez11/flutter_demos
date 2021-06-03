@@ -60,6 +60,9 @@ areaPointEntityFromJson(AreaPointEntity data, Map<String, dynamic> json) {
 	if (json['images'] != null) {
 		data.images = (json['images'] as List).map((v) => v.toString()).toList().cast<String>();
 	}
+	if (json['points'] != null) {
+		data.points = (json['points'] as List).map((v) => AreaPointEntity().fromJson(v)).toList();
+	}
 	return data;
 }
 
@@ -71,5 +74,6 @@ Map<String, dynamic> areaPointEntityToJson(AreaPointEntity entity) {
 	data['money'] = entity.money;
 	data['describe'] = entity.describe;
 	data['images'] = entity.images;
+	data['points'] =  entity.points.map((v) => v.toJson()).toList();
 	return data;
 }

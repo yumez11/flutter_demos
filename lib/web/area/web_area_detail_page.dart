@@ -1,10 +1,15 @@
+import 'package:bot_toast/bot_toast.dart';
+import 'package:my_demo/model/model_helps.dart';
+import 'package:my_demo/model/msg_entity.dart';
+import 'package:my_demo/utils/application.dart';
+import 'package:my_demo/utils/utils.dart';
 import 'package:my_demo/web/commond/commond.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:my_demo/model/area_entity.dart';
 import 'package:my_demo/stelys/stelys.dart';
-import '../web_home_page.dart';
+import 'area_pointDetail.dart';
 
 class WebAreaDetailPage extends StatefulWidget {
   WebAreaDetailPage({Key? key, required this.data}) : super(key: key);
@@ -18,9 +23,16 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
   late Size _size;
   String _inputString = '';
 
+  ValueNotifier<List<MsgEntity>> msgList = ValueNotifier([]);
+
   @override
   void initState() {
     super.initState();
+    getMsg();
+  }
+
+  getMsg() {
+    msgList.value = SharedStore.getMsgs();
   }
 
   @override
@@ -29,8 +41,9 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
 
     return Scaffold(
       body: Container(
-        child: BackImageWidget(
+        child: BackGroundImgWidget(
           backImg: widget.data.images.first,
+          useHero: true,
           child: Container(
             width: double.infinity,
             height: double.infinity,
@@ -101,20 +114,16 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
                     children: widget.data.points
                         .map(
                           (e) => ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                return AreaPointDetailPage(data: e);
+                              }));
+                            },
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
-                              child: BaseImage(
-                                imgUrl: e.images.first,
-                                fit: BoxFit.cover,
-                                width: 100,
-                                height: 100,
-                              ),
+                              child: BaseImage(imgUrl: e.images.first, fit: BoxFit.cover, width: 100, height: 100),
                             ),
-                            title: Text(
-                              e.pointName ?? '',
-                              style: TTextStyles.fTitle,
-                              maxLines: 1,
-                            ),
+                            title: Text(e.pointName ?? '', style: TTextStyles.fTitle, maxLines: 1),
                             subtitle: Text(e.location ?? '', style: TTextStyles.f13w),
                           ),
                         )
@@ -123,43 +132,92 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
                     physics: NeverScrollableScrollPhysics(),
                   ),
                   Container(
-                    height: 200,
+                    height: areaModels.where((element) => element.areaName != widget.data.areaName).toList().length > 0
+                        ? 200
+                        : 0,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: areaModels
+
+                          /// 其他的景点
                           .where((element) => element.areaName != widget.data.areaName)
                           .map(
                             (e) => Container(
-                              width: 250,
-                              height: 200,
-                              child: ListTile(
-                                title: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: BaseImage(
-                                    imgUrl: e.areaName ?? '',
-                                    fit: BoxFit.cover,
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                ),
-                                subtitle: Column(
-                                  children: [
-                                    Text(
-                                      e.areaLevel ?? '',
-                                      style: TTextStyles.fTitle,
-                                      maxLines: 1,
+                                width: 250,
+                                height: 200,
+                                child: ListTile(
+                                    onTap: () {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                        return WebAreaDetailPage(data: e);
+                                      }));
+                                    },
+                                    title: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: BaseImage(
+                                          imgUrl: e.areaName ?? '', fit: BoxFit.cover, width: 100, height: 100),
                                     ),
-                                    Text(e.location ?? '', style: TTextStyles.f13w),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                    subtitle: Column(
+                                      children: [
+                                        Text(e.areaLevel ?? '', style: TTextStyles.fTitle, maxLines: 1),
+                                        Text(e.location ?? '', style: TTextStyles.f13w),
+                                      ],
+                                    ))),
                           )
                           .toList(),
-                      // shrinkWrap: true,
-                      // physics: NeverScrollableScrollPhysics(),
                     ),
                   ),
+                  ValueListenableBuilder<List<MsgEntity>>(
+                      valueListenable: msgList,
+                      builder: (ctx, value, wid) {
+                        return ListView(
+                          children: value
+                              .map(
+                                (e) => ListTile(
+                                  onTap: () {
+                                    if (Application.isAdmin) {
+                                      showDeleteAlert(context, action: () {
+                                        SharedStore.deleteMsg(e);
+                                        getMsg();
+                                      });
+                                    }
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.all(10),
+                                        padding: EdgeInsets.all(5),
+                                        // borderRadius: BorderRadius.circular(5),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.83),
+                                          borderRadius: BorderRadius.circular(26),
+                                        ),
+                                        width: 52,
+                                        height: 52,
+                                        child: Center(
+                                          child: Text((e.creater ?? '').characters.first,
+                                              style: TextStyle(fontSize: 32, color: Colors.black12), maxLines: 1),
+                                        ),
+                                      ),
+                                      Text(e.creater ?? '', style: TTextStyles.fTitle, maxLines: 1),
+                                    ],
+                                  ),
+                                  subtitle: Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(e.describe ?? '', style: TextStyle(fontSize: 18, color: Colors.white70)),
+                                        Text((e.time ?? ''), style: TTextStyles.f13w),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                        );
+                      }),
                 ],
               ),
             ),
@@ -193,26 +251,80 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
         builder: (context) {
           return CupertinoAlertDialog(
             title: Text(
-              '添加图片url',
+              '留下你的宝贵意见或分享内容吧~',
               style: TextStyle(fontSize: 14),
             ),
             content: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CupertinoTextField(
-                onChanged: (value) {
-                  _inputString = value;
-                },
-                // placeholder: '添加图片url',
+              child: Container(
+                width: 300,
+                height: 100,
+                child: CupertinoTextField(
+                  onChanged: (value) {
+                    _inputString = value;
+                  },
+                ),
               ),
             ),
             actions: <Widget>[
               CupertinoDialogAction(
                 onPressed: () {
                   Navigator.pop(context);
+                  DateTime time = DateTime.now();
 
-
+                  MsgEntity ent = MsgEntity()
+                    ..msgTitle = widget.data.areaName
+                    ..describe = _inputString
+                    ..describe = _inputString
+                    ..creater = Application.loginInfo
+                    ..time = '${time.year}年${time.month}月${time.day}日  ${time.hour}时${time.minute}分${time.second}秒';
+                  print('存数据结果1:  $ent');
+                  SharedStore.saveMsgs(ent).then((value) {
+                    if (value) {
+                      BotToast.showSimpleNotification(title: "添加成功");
+                      getMsg();
+                    } else {
+                      BotToast.showSimpleNotification(title: "添加失败");
+                    }
+                  });
                 },
                 child: Text('确定'),
+              ),
+            ],
+          );
+        });
+  }
+
+  showDeleteAlert(
+    BuildContext context, {
+    String title = '是否删除此条数据?',
+    required VoidCallback action,
+  }) {
+    showCupertinoDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              title,
+              style: TextStyle(fontSize: 14),
+            ),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('取消'),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                  action();
+                },
+                child: Text(
+                  '确定',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
               ),
             ],
           );

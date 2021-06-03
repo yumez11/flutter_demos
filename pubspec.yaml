@@ -32,6 +32,8 @@ dependencies:
   shared_preferences:
   synchronized:
   bot_toast:
+  photo_view:
+
 
 dev_dependencies:
   flutter_test:

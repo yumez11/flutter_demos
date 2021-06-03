@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_demo/model/area_entity.dart';
-import 'package:my_demo/model/hotel_entity.dart';
 import 'package:my_demo/utils/application.dart';
 import 'package:my_demo/web/web_moudle_page.dart';
 import 'area/add_page.dart';
 import 'package:my_demo/web/commond/commond.dart';
+
+import 'line_page.dart';
 
 class WebHomePage extends StatefulWidget {
   const WebHomePage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _WebHomePageState extends State<WebHomePage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: BackImageWidget(
+        child: BackGroundImgWidget(
           backImg:
               'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01098d5568e1710000012716d6cc06.jpg%403000w_1l_0o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625149991&t=9d0ce350c019a6d2744333195c681468',
           child: Column(
@@ -53,8 +53,12 @@ class _WebHomePageState extends State<WebHomePage> with TickerProviderStateMixin
                 child: TabBarView(
                   controller: _controller,
                   children: webMoudels.map((e) {
-                    int index = webMoudels.indexOf(e);
-                    return WebMoudelPage(type: WebMoudelType.values[index]);
+                    if (e == '路线') {
+                      return LinMoudelPage();
+                    } else {
+                      int index = webMoudels.indexOf(e);
+                      return WebMoudelPage(type: WebMoudelType.values[index]);
+                    }
                   }).toList(),
                 ),
               )
@@ -105,37 +109,3 @@ class _WebHomePageState extends State<WebHomePage> with TickerProviderStateMixin
     );
   }
 }
-
-AreaEntity zijinshan = AreaEntity()
-  ..areaName = ''
-  ..areaLevel = ''
-  ..location = ''
-  ..describe = ''
-  ..money = ''
-  ..images = []
-  ..points = [
-    AreaPointEntity()
-      ..pointName = ''
-      ..pointLevel = ''
-      ..location = ''
-      ..describe = ''
-      ..money = ''
-      ..images = []
-  ];
-
-List<AreaEntity> areaModels = [
-  zijinshan,
-  AreaEntity()
-    ..areaName = ''
-    ..areaLevel = '',
-];
-
-List<HotelEntity> hotelModels = [
-  HotelEntity()
-    ..hotelName = ''
-    ..hotelLevel = ''
-    ..location = ''
-    ..describe = ''
-    ..money = ''
-    ..images = []
-];

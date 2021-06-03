@@ -49,22 +49,27 @@ class SharedStore {
   }
 
   /// 存取消息
-  static Future<bool> saveMsgs(List<MsgEntity> entitys) async {
-    List<MsgEntity> ents = getMsgs() ?? [];
-    print('存取 saveMsgs  get ${ents.length}');
-
-    entitys.addAll(ents);
-    bool? a = await SpUtil.putObjectList(msgKey, entitys.toSet().toList());
+  static Future<bool> saveMsgs(MsgEntity ent) async {
+    List<MsgEntity> ents = getMsgs();
+    ents.insert(0, ent);
+    bool? a = await SpUtil.putObjectList(msgKey, ents.toSet().toList());
     return a!;
   }
 
-  static List<MsgEntity>? getMsgs() {
-    return SpUtil.getObjList<MsgEntity>(msgKey, (v) => JsonConvert.fromJsonAsT<MsgEntity>(v));
+  static List<MsgEntity> getMsgs() {
+    List<MsgEntity>? ents = SpUtil.getObjList<MsgEntity>(msgKey, (v) {
+      MsgEntity ent = JsonConvert.fromJsonAsT<MsgEntity>(v);
+      return ent;
+    }, defValue: []);
+    return ents ?? [];
   }
 
-  static Future<bool> deleteMsg(MsgEntity area) async {
-    List<MsgEntity> ents = (getMsgs() ?? []).where((e) => e.msgTitle != area.msgTitle).toList();
-    bool? a = await SpUtil.putObjectList(msgKey, ents);
+  static Future<bool> deleteMsg(MsgEntity ent) async {
+    List<MsgEntity> ents = getMsgs();
+    ents = ents.where((e) {
+      return e.msgTitle == ent.msgTitle && e.creater == ent.creater && e.time != ent.time && e.describe != ent.describe;
+    }).toList();
+    bool? a = await SpUtil.putObjectList(msgKey, ents.toSet().toList());
     return a!;
   }
 }

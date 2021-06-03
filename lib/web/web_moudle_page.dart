@@ -3,7 +3,9 @@ import 'package:my_demo/model/area_entity.dart';
 import 'package:my_demo/model/hotel_entity.dart';
 import 'package:my_demo/stelys/stelys.dart';
 import 'package:my_demo/utils/utils.dart';
-import 'package:my_demo/web/web_home_page.dart';
+import 'package:my_demo/web/hotel/hohel_detail_page.dart';
+import 'area/web_area_detail_page.dart';
+import 'package:my_demo/web/commond/commond.dart';
 
 enum WebMoudelType { area, hotel, line }
 
@@ -38,30 +40,59 @@ class _WebMoudelPageState extends State<WebMoudelPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
+      child: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider(
+            color: Colors.transparent,
+            height: 10,
+          );
+        },
         itemBuilder: (ctx, index) {
           var model = _entModels[index];
           String? name;
           String? url;
+          String? url2;
           String? content;
 
           if (model is AreaEntity) {
             AreaEntity areaEnt = model as AreaEntity;
             name = areaEnt.areaName;
-            url = areaEnt.areaName;
+            List<String> imgs = (areaEnt.images);
+            if (imgs.isNotEmpty) {
+              url = imgs.first;
+              url2 = imgs.last;
+            }
             content = areaEnt.describe;
           } else if (model is HotelEntity) {
-            HotelEntity areaEnt = model as HotelEntity;
-            name = areaEnt.hotelName;
-            url = areaEnt.hotelName;
-            content = areaEnt.describe;
+            HotelEntity hotelEntity = model as HotelEntity;
+            name = hotelEntity.hotelName;
+            List<String> imgs = (hotelEntity.images);
+            if (imgs.isNotEmpty) {
+              url = imgs.first;
+              url2 = imgs.last;
+            }
+            content = hotelEntity.describe;
           }
 
           return ListTile(
+            onTap: () {
+              if (widget.type == WebMoudelType.area) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                  return WebAreaDetailPage(data: model as AreaEntity);
+                }));
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                  return WebHotelDetailPage(data: model as HotelEntity);
+                }));
+              }
+            },
+            onLongPress: (){
+
+            },
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.network(
-                url ?? '',
+              child: BaseImage(
+                imgUrl: url ?? '',
                 fit: BoxFit.cover,
                 width: 100,
                 height: 100,
@@ -84,4 +115,6 @@ class _WebMoudelPageState extends State<WebMoudelPage> {
       ),
     );
   }
+
+
 }

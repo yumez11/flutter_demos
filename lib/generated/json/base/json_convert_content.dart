@@ -29,6 +29,8 @@ class JsonConvert<T> {
 				return hotelEntityFromJson(data as HotelEntity, json) as T;
 			case AreaEntity:
 				return areaEntityFromJson(data as AreaEntity, json) as T;
+			case AreaPointEntity:
+				return areaPointEntityFromJson(data as AreaPointEntity, json) as T;
 			case LineEntity:
 				return lineEntityFromJson(data as LineEntity, json) as T;
 			case LineHotel:
@@ -48,6 +50,8 @@ class JsonConvert<T> {
 				return hotelEntityToJson(data as HotelEntity);
 			case AreaEntity:
 				return areaEntityToJson(data as AreaEntity);
+			case AreaPointEntity:
+				return areaPointEntityToJson(data as AreaPointEntity);
 			case LineEntity:
 				return lineEntityToJson(data as LineEntity);
 			case LineHotel:
@@ -68,6 +72,8 @@ class JsonConvert<T> {
 			return HotelEntity().fromJson(json);
 		}	else if(type == (AreaEntity).toString()){
 			return AreaEntity().fromJson(json);
+		}	else if(type == (AreaPointEntity).toString()){
+			return AreaPointEntity().fromJson(json);
 		}	else if(type == (LineEntity).toString()){
 			return LineEntity().fromJson(json);
 		}	else if(type == (LineHotel).toString()){
@@ -88,6 +94,8 @@ class JsonConvert<T> {
 			return data.map<HotelEntity>((e) => HotelEntity().fromJson(e)).toList() as M;
 		}	else if(<AreaEntity>[] is M){
 			return data.map<AreaEntity>((e) => AreaEntity().fromJson(e)).toList() as M;
+		}	else if(<AreaPointEntity>[] is M){
+			return data.map<AreaPointEntity>((e) => AreaPointEntity().fromJson(e)).toList() as M;
 		}	else if(<LineEntity>[] is M){
 			return data.map<LineEntity>((e) => LineEntity().fromJson(e)).toList() as M;
 		}	else if(<LineHotel>[] is M){

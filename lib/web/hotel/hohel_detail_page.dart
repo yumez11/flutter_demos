@@ -1,21 +1,21 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:my_demo/model/hotel_entity.dart';
 import 'package:my_demo/stelys/stelys.dart';
 
-import 'web_home_page.dart';
+import '../web_home_page.dart';
 
-class WebMoudelDetailPage extends StatefulWidget {
-  WebMoudelDetailPage({Key? key, this.index}) : super(key: key);
-  int? index;
+class WebHotelDetailPage<T> extends StatefulWidget {
+  WebHotelDetailPage({Key? key, required this.data}) : super(key: key);
+  HotelEntity data;
 
   @override
-  _WebMoudelDetailPageState createState() => _WebMoudelDetailPageState();
+  _WebHotelDetailPageState createState() => _WebHotelDetailPageState();
 }
 
-class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerProviderStateMixin {
+class _WebHotelDetailPageState extends State<WebHotelDetailPage> with TickerProviderStateMixin {
   late Size _size;
 
   @override
@@ -27,11 +27,42 @@ class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerPr
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
 
+    // String? name;
+    // String? loction;
+    // String? level;
+    // String? content;
+    // String? url;
+    // String? url2;
+    // List<String> imgs = [];
+    //
+    // if (widget.data is AreaEntity) {
+    //   AreaEntity areaEnt = widget.data as AreaEntity;
+    //   name = areaEnt.areaName;
+    //   loction = areaEnt.location;
+    //   level = areaEnt.areaLevel;
+    //   content = areaEnt.describe;
+    //   imgs = (areaEnt.images ?? []);
+    //   if (imgs.isNotEmpty) {
+    //     url = imgs.first;
+    //     url2 = imgs.last;
+    //   }
+    // } else if (widget.data is HotelEntity) {
+    //   HotelEntity hotelEntity = widget.data as HotelEntity;
+    //   name = hotelEntity.hotelName;
+    //   content = hotelEntity.describe;
+    //   loction = hotelEntity.location;
+    //   level = hotelEntity.hotelLevel;
+    //   imgs = (hotelEntity.images ?? []);
+    //   if (imgs.isNotEmpty) {
+    //     url = imgs.first;
+    //     url2 = imgs.last;
+    //   }
+    // }
+
     return Scaffold(
       body: Container(
         child: BackImageWidget(
-          backImg: webMoudelsBacks[widget.index ??
-              0], // 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1790597721,3502361807&fm=26&gp=0.jpg',
+          backImg: widget.data.images.first,
           child: Container(
             width: double.infinity,
             height: double.infinity,
@@ -44,9 +75,26 @@ class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerPr
                     color: Colors.transparent,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        '景区名称${widget.index}',
-                        style: TTextStyles.fTitle,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                widget.data.hotelName ?? '',
+                                style: TTextStyles.fTitle,
+                              ),
+                              Text(
+                                widget.data.hotelLevel ?? '',
+                                style: TTextStyles.f13w,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            widget.data.location ?? '',
+                            style: TTextStyles.f13w,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -60,12 +108,12 @@ class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerPr
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: Image.network(
-                              webMoudelsBacks[index],
+                              widget.data.images[index],
                               fit: BoxFit.fill,
                             ),
                           );
                         },
-                        itemCount: webMoudelsBacks.length,
+                        itemCount: widget.data.images.length,
                         viewportFraction: 0.8,
                         scale: 0.9,
                       ),
@@ -76,41 +124,54 @@ class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerPr
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        '景区描述' * 100,
+                        (widget.data.contact ?? '') * 100,
                         style: TTextStyles.f13w,
                       ),
                     ),
                   ),
-                  ListView(
-                    children: webMoudelsBacks
-                        .map((e) => ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(
-                                  e,
-                                  fit: BoxFit.cover,
-                                  width: 100,
-                                  height: 100,
-                                ),
-                              ),
-                              title: Text(
-                                e,
-                                style: TTextStyles.fTitle,
-                                maxLines: 1,
-                              ),
-                              subtitle: Text(e, style: TTextStyles.f13w),
-                            ))
-                        .toList(),
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                  Card(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        (widget.data.describe ?? '') * 100,
+                        style: TTextStyles.f13w,
+                      ),
+                    ),
                   ),
+                  // ListView(
+                  //   children: webMoudelsBacks
+                  //       .map(
+                  //         (e) => ListTile(
+                  //           leading: ClipRRect(
+                  //             borderRadius: BorderRadius.circular(5),
+                  //             child: Image.network(
+                  //               e,
+                  //               fit: BoxFit.cover,
+                  //               width: 100,
+                  //               height: 100,
+                  //             ),
+                  //           ),
+                  //           title: Text(
+                  //             e,
+                  //             style: TTextStyles.fTitle,
+                  //             maxLines: 1,
+                  //           ),
+                  //           subtitle: Text(e, style: TTextStyles.f13w),
+                  //         ),
+                  //       )
+                  //       .toList(),
+                  //   shrinkWrap: true,
+                  //   physics: NeverScrollableScrollPhysics(),
+                  // ),
                   Container(
                     // color: Colors.redAccent,
                     height: 200,
                     // width: double.infinity,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: webMoudelsBacks
+                      children: hotelModels
+                          .where((element) => element.hotelName != widget.data.hotelName)
                           .map(
                             (e) => Container(
                               width: 250,
@@ -119,7 +180,7 @@ class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerPr
                                 title: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
                                   child: Image.network(
-                                    e,
+                                    e.images.first,
                                     fit: BoxFit.cover,
                                     width: 100,
                                     height: 100,
@@ -128,11 +189,11 @@ class _WebMoudelDetailPageState extends State<WebMoudelDetailPage> with TickerPr
                                 subtitle: Column(
                                   children: [
                                     Text(
-                                      e,
+                                      e.hotelName ?? '',
                                       style: TTextStyles.fTitle,
                                       maxLines: 1,
                                     ),
-                                    Text(e, style: TTextStyles.f13w),
+                                    Text((e.hotelLevel ?? '') + (e.location ?? ''), style: TTextStyles.f13w),
                                   ],
                                 ),
                               ),

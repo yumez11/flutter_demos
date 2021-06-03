@@ -14,6 +14,7 @@ void main() async {
   await SpUtil.getInstance();
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       builder: BotToastInit(),
       navigatorObservers: [BotToastNavigatorObserver()],
       theme: ThemeData.from(

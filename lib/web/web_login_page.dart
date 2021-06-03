@@ -1,8 +1,10 @@
 import 'dart:math';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_demo/utils/application.dart';
 import 'package:my_demo/web/web_home_page.dart';
-import 'web_moudel_detail_page.dart';
+import 'package:my_demo/web/commond/commond.dart';
 
 List<String> webMoudelsBacks = [
   'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1790597721,3502361807&fm=26&gp=0.jpg',
@@ -19,6 +21,9 @@ class WebLoginPage extends StatefulWidget {
 }
 
 class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMixin {
+  String? _loginName;
+  String? _password;
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +40,7 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
       body: Container(
         child: BackImageWidget(
             backImg:
-                "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.wendangwang.com%2Fpic%2F819d58faf493da100ce71203%2F1-1262-png_6_0_0_0_0_0_0_1785.824_1262.835-1786-0-0-1786.jpg&refer=http%3A%2F%2Fwww.wendangwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625111663&t=7d43f666640b23377eb72c4e69ac6da6",
+                'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01458b5568504300000127165e28af.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1625149800&t=cb54fe96bd6c4f270f086fd5028de289',
             child: Center(
               child: Container(
                 width: 300,
@@ -59,16 +64,17 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          hintText: '用户名',
+                          hintText: '账号/登录名',
                           hintStyle: TextStyle(color: Colors.white, fontSize: 14),
                           contentPadding: EdgeInsets.all(15),
                           border: InputBorder.none,
                         ),
+                        onChanged: (value) {
+                          _loginName = value;
+                        },
                       ),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       height: 44,
@@ -85,22 +91,61 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
                           contentPadding: EdgeInsets.all(15),
                           border: InputBorder.none,
                         ),
+                        onChanged: (value) {
+                          _password = value;
+                        },
                       ),
                     ),
                     Container(
-                      // color: Colors.brown.withOpacity(0.2),
-                      child: CupertinoButton(
-                        child: Text(
-                          '登录',
-                          style: TextStyle(
-                            color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CupertinoButton(
+                            child: Text(
+                              '登录',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (_loginName == null && _password == null) {
+                                BotToast.showSimpleNotification(title: "请输入账户名或密码");
+                                return;
+                              }
+
+                              if (_loginName == 'admin' && _password == 'admin') {
+                                Application.loginInfo = '管理员';
+                                Application.isAdmin = true;
+                                BotToast.showSimpleNotification(title: "登录成功");
+                                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                  return WebHomePage();
+                                }));
+                              } else {
+                                BotToast.showSimpleNotification(title: "账户或密码错误");
+                              }
+                            },
                           ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                            return WebHomePage();
-                          }));
-                        },
+                          CupertinoButton(
+                            child: Text(
+                              '游客登录',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (_loginName == null) {
+                                BotToast.showSimpleNotification(title: "请填写登录名称");
+                                return;
+                              }
+                              BotToast.showSimpleNotification(title: "登录成功");
+                              Application.loginInfo = _loginName;
+                              Application.isAdmin = false;
+                              Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                return WebHomePage();
+                              }));
+                            },
+                          ),
+                        ],
                       ),
                     )
                   ],

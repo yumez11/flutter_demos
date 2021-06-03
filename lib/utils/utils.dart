@@ -67,6 +67,4 @@ class SharedStore {
     bool? a = await SpUtil.putObjectList(msgKey, ents);
     return a!;
   }
-
-
 }

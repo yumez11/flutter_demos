@@ -43,6 +43,36 @@ AreaEntity zijinshan = AreaEntity()
       ..money = '呵呵点金钱'
       ..images = webMoudelsBacks.sublist(2, 3),
   ];
+AreaEntity zijinshan2 = AreaEntity()
+  ..areaName = '呵呵景区名2'
+  ..areaLevel = '呵呵等级2'
+  ..location = '呵呵位置2' * 5
+  ..describe = '呵呵描述2' * 10
+  ..money = '呵呵钱2'
+  ..images = webMoudelsBacks
+  ..points = [
+    AreaPointEntity()
+      ..pointName = '呵呵点1名2'
+      ..pointLevel = '呵呵点等级2'
+      ..location = '呵呵点位置2'
+      ..describe = '呵呵点描述2'
+      ..money = '呵呵点金钱2'
+      ..images = webMoudelsBacks.sublist(2, 3),
+    AreaPointEntity()
+      ..pointName = '呵呵点1名'
+      ..pointLevel = '呵呵点等级'
+      ..location = '呵呵点位置'
+      ..describe = '呵呵点描述'
+      ..money = '呵呵点金钱'
+      ..images = webMoudelsBacks.sublist(2, 3),
+    AreaPointEntity()
+      ..pointName = '呵呵点1名'
+      ..pointLevel = '呵呵点等级'
+      ..location = '呵呵点位置'
+      ..describe = '呵呵点描述'
+      ..money = '呵呵点金钱'
+      ..images = webMoudelsBacks.sublist(2, 3),
+  ];
 
 // 玄武湖
 AreaEntity xuanwuhu = AreaEntity()
@@ -65,6 +95,7 @@ AreaEntity xuanwuhu = AreaEntity()
 /// 所有景区
 List<AreaEntity> areaModels = [
   zijinshan,
+  zijinshan2,
   // zijinshan,
   // zijinshan,
   // zijinshan,
@@ -108,59 +139,39 @@ List<LineEntity> lineModels = [
     ..lineName = '呵呵路线1'
     ..time = '呵呵时间'
     ..hotel = lineHotel
-    ..area = LineArea()
-    ..describe = '呵呵路线描述钱'
-    ..lineType = '呵呵路线类型',
-  LineEntity()
-    ..lineName = '呵呵路线2'
-    ..time = '呵呵时间'
-    ..hotel = lineHotel
-    ..area = LineArea()
-    ..describe = '呵呵路线描述钱'
-    ..lineType = '呵呵路线类型',
-  LineEntity()
-    ..lineName = '呵呵路线3'
-    ..time = '呵呵时间'
-    ..hotel = lineHotel
-    ..area = LineArea()
+    ..area = lineArea
     ..describe = '呵呵路线描述钱'
     ..lineType = '呵呵路线类型',
   LineEntity()
     ..lineName = '呵呵路线1'
     ..time = '呵呵时间'
     ..hotel = lineHotel
-    ..area = LineArea()
+    ..area = lineArea
     ..describe = '呵呵路线描述钱'
     ..lineType = '呵呵路线类型',
   LineEntity()
     ..lineName = '呵呵路线1'
     ..time = '呵呵时间'
     ..hotel = lineHotel
-    ..area = LineArea()
+    ..area = lineArea
     ..describe = '呵呵路线描述钱'
     ..lineType = '呵呵路线类型',
   LineEntity()
     ..lineName = '呵呵路线1'
     ..time = '呵呵时间'
     ..hotel = lineHotel
-    ..area = LineArea()
+    ..area = lineArea
     ..describe = '呵呵路线描述钱'
     ..lineType = '呵呵路线类型',
   LineEntity()
     ..lineName = '呵呵路线1'
     ..time = '呵呵时间'
     ..hotel = lineHotel
-    ..area = LineArea()
-    ..describe = '呵呵路线描述钱'
-    ..lineType = '呵呵路线类型',
-  LineEntity()
-    ..lineName = '呵呵路线1'
-    ..time = '呵呵时间'
-    ..hotel = lineHotel
-    ..area = LineArea()
+    ..area = lineArea
     ..describe = '呵呵路线描述钱'
     ..lineType = '呵呵路线类型',
 ];
+
 LineHotel lineHotel = LineHotel()
   ..stayTime = '星期六'
   ..hotels = hotelModels;

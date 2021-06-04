@@ -3,6 +3,7 @@ import 'package:my_demo/model/area_entity.dart';
 import 'package:my_demo/model/hotel_entity.dart';
 import 'package:my_demo/model/model_helps.dart';
 import 'package:my_demo/stelys/stelys.dart';
+import 'package:my_demo/utils/application.dart';
 import 'package:my_demo/web/area/web_area_detail_page.dart';
 import 'package:my_demo/web/commond/commond.dart';
 import 'package:my_demo/web/hotel/hotel_detail_page.dart';
@@ -95,7 +96,24 @@ class _WebMoudelPageState extends State<WebMoudelPage> {
                 }));
               }
             },
-            onLongPress: () {},
+            onLongPress: () {
+              if (Application.isAdmin) {
+                showDeleteAlert(context, action: () {
+                  switch (widget.type) {
+                    case WebMoudelType.area:
+                      // _entModels = SharedStore.getAreas() ?? [];
+                      _entModels = areaModels;
+                      break;
+                    case WebMoudelType.hotel:
+                      // _entModels = SharedStore.getHotels() ?? [];
+                      _entModels = hotelModels;
+                      break;
+                  }
+
+                  getDatas();
+                });
+              }
+            },
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: BaseImage(

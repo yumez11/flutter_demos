@@ -110,9 +110,12 @@ class _WebLoginPageState extends State<WebLoginPage> with TickerProviderStateMix
                                 Application.loginInfo = '管理员';
                                 Application.isAdmin = true;
                                 BotToast.showSimpleNotification(title: "管理员    登录");
-                                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                                  return WebHomePage();
-                                }));
+
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => WebHomePage()),
+                                  (route) => route == null,
+                                );
                               } else {
                                 BotToast.showSimpleNotification(title: "账户或密码错误");
                               }

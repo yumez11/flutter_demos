@@ -41,42 +41,127 @@ class _LinMoudelPageState extends State<LinMoudelPage> {
         },
         itemBuilder: (ctx, index) {
           LineEntity ent = _entModels[index];
-          return Container(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      height: 100,
-                      width: 100,
-                      constraints: BoxConstraints(minWidth: 100, minHeight: 100),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.blueGrey,
-                      ),
-                      child: Text(
-                        ent.lineName ?? '',
-                        style: TextStyle(color: Colors.primaries[index % 17], fontSize: 30),
-                      ),
-                      // ),
-                    ),
-                    Column(
-                      children: [
-                        Text(
+          return InkWell(
+            onTap: () {
+              setState(() {
+                ent.isExpand = !ent.isExpand;
+              });
+            },
+            child: Container(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 100,
+                        width: 100,
+                        constraints: BoxConstraints(minWidth: 100, minHeight: 100),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.primaries[index % 17].withOpacity(0.3),
+                        ),
+                        child: Text(
                           ent.lineName ?? '',
-                          style: TTextStyles.fTitle,
-                          maxLines: 1,
+                          style: TextStyle(color: Colors.primaries[index % 17], fontSize: 30),
                         ),
-                        Text(
-                          ent.describe ?? "",
-                          style: TTextStyles.f13w,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        children: [
+                          Text(
+                            ent.lineName ?? '',
+                            style: TTextStyles.fTitle,
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            ent.describe ?? "",
+                            style: TTextStyles.f13w,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  ent.isExpand
+                      ? Container(
+                          padding: EdgeInsets.symmetric(horizontal: 50),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Container(
+                                height: 50,
+                                child: Text(ent.area!.stayTime ?? '', style: TTextStyles.fTitle, maxLines: 1),
+                              ),
+                              Container(
+                                height: 200,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: (ent.area!.areas ?? [])
+                                      .map(
+                                        (e) => Container(
+                                            width: 250,
+                                            height: 200,
+                                            child: ListTile(
+                                                title: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  child: BaseImage(
+                                                      imgUrl: e.images.first,
+                                                      fit: BoxFit.cover,
+                                                      width: 100,
+                                                      height: 100),
+                                                ),
+                                                subtitle: Column(
+                                                  children: [
+                                                    Text((e.areaName ?? '') + ' ' + (e.areaLevel ?? ''),
+                                                        style: TTextStyles.fTitle, maxLines: 1),
+                                                    Text(e.location ?? '', style: TTextStyles.f13w),
+                                                  ],
+                                                ))),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                height: 50,
+                                child: Text(ent.hotel!.stayTime ?? '', style: TTextStyles.fTitle, maxLines: 1),
+                              ),
+                              Container(
+                                height: 200,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: (ent.hotel!.hotels ?? [])
+                                      .map(
+                                        (e) => Container(
+                                            width: 250,
+                                            height: 200,
+                                            child: ListTile(
+                                                title: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  child: BaseImage(
+                                                      imgUrl: e.images.first,
+                                                      fit: BoxFit.cover,
+                                                      width: 100,
+                                                      height: 100),
+                                                ),
+                                                subtitle: Column(
+                                                  children: [
+                                                    Text((e.hotelName ?? '') + ' ' + (e.hotelLevel ?? ''),
+                                                        style: TTextStyles.fTitle, maxLines: 1),
+                                                    Text(e.location ?? '', style: TTextStyles.f13w),
+                                                  ],
+                                                ))),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                            ],
+                          ))
+                      : Container(),
+                ],
+              ),
             ),
           );
         },

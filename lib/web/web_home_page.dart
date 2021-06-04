@@ -51,6 +51,7 @@ class _WebHomePageState extends State<WebHomePage> with TickerProviderStateMixin
               ),
               Expanded(
                 child: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   controller: _controller,
                   children: webMoudels.map((e) {
                     if (e == '路线') {

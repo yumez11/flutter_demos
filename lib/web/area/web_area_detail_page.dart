@@ -153,8 +153,8 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
                                     },
                                     title: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
-                                      child: BaseImage(
-                                          imgUrl: e.areaName ?? '', fit: BoxFit.cover, width: 100, height: 100),
+                                      child:
+                                          BaseImage(imgUrl: e.images.first, fit: BoxFit.cover, width: 100, height: 100),
                                     ),
                                     subtitle: Column(
                                       children: [
@@ -294,40 +294,40 @@ class _WebAreaDetailPageState extends State<WebAreaDetailPage> with TickerProvid
           );
         });
   }
+}
 
-  showDeleteAlert(
-    BuildContext context, {
-    String title = '是否删除此条数据?',
-    required VoidCallback action,
-  }) {
-    showCupertinoDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text(
-              title,
-              style: TextStyle(fontSize: 14),
+showDeleteAlert(
+  BuildContext context, {
+  String title = '是否删除此条数据?',
+  required VoidCallback action,
+}) {
+  showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 14),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('取消'),
             ),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('取消'),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+                action();
+              },
+              child: Text(
+                '确定',
+                style: TextStyle(color: Colors.redAccent),
               ),
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                  action();
-                },
-                child: Text(
-                  '确定',
-                  style: TextStyle(color: Colors.redAccent),
-                ),
-              ),
-            ],
-          );
-        });
-  }
+            ),
+          ],
+        );
+      });
 }

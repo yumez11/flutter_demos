@@ -6,6 +6,7 @@ import 'package:my_demo/web/web_login_page.dart';
 import 'ball_page.dart';
 import 'berser_path_page.dart';
 import 'dart_custom_tree_page.dart';
+import 'http_server/http_server_page.dart';
 import 'margLayer_page.dart';
 import 'popmenu_page.dart';
 
@@ -88,6 +89,13 @@ class _TransitionsHomePageState extends State<_TransitionsHomePage> {
                   subtitle: 'test web page ',
                   onTap: () {
                     pushPage(WebLoginPage());
+                  },
+                ),
+                _TransitionListTile(
+                  title: 'httpServer page',
+                  subtitle: 'test http server',
+                  onTap: () {
+                    pushPage(HttpServerPage());
                   },
                 ),
               ],

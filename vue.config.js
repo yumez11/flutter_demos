@@ -1,10 +1,10 @@
 
 module.exports = {
-    "publicPath": process.env.NODE_ENV === 'production' ? '' : './',
-    "assetsDir": 'assets',
-    "outputDir": 'dist',
-    "productionSourceMap": process.env.NODE_ENV === 'development',
-    "chainWebpack": (config) => {
+    publicPath: process.env.NODE_ENV === 'production' ? '' : './',
+    assetsDir: 'assets',
+    outputDir: 'dist',
+    productionSourceMap: process.env.NODE_ENV === 'development',
+    chainWebpack: (config) => {
         if (process.env.NODE_ENV === 'production') { // 生产环境配置
             config.mode = 'production'
             // config.performance = {
@@ -13,8 +13,12 @@ module.exports = {
             //     maxAssetSize: 30000000
             // }
         } else { // 开发环境配置
-            config.devtool = 'source-map';
+            // config.devtool = 'source-map';
         }
+        // config.plugin('html').tab(args=>{
+        //     args[0].title = 'yumez'
+        //     return args
+        // })
         config.resolve.alias
             .set('assets', '@/assets')
             .set('components', '@/components')

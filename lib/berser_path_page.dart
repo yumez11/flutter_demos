@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TouchInfo extends ChangeNotifier {
+class BezierPage extends ChangeNotifier {
   List<Offset> _points = [];
   int _selectIndex = -1;
 
@@ -38,7 +38,7 @@ class Path2 extends StatefulWidget {
 }
 
 class Path2State extends State<Path2> {
-  TouchInfo touchInfo = TouchInfo();
+  BezierPage touchInfo = BezierPage();
 
   @override
   void dispose() {
@@ -56,7 +56,7 @@ class Path2State extends State<Path2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('berser'),
+        title: Text('Bezier'),
       ),
       body: Container(
         // decoration: BoxDecoration(),
@@ -76,7 +76,7 @@ class Path2State extends State<Path2> {
 
   void _onPanDown(DragDownDetails details) {
     print('_onPanDown');
-    if (touchInfo.points.length < 3) {
+    if (touchInfo.points.length < 4) {
       touchInfo.addPoint(details.localPosition);
     } else {
       ///绘制曲线
@@ -107,7 +107,7 @@ class Path2State extends State<Path2> {
 class Path2CustomPainter extends CustomPainter {
   Path2CustomPainter({required this.repaint}) : super(repaint: repaint);
 
-  TouchInfo repaint;
+  BezierPage repaint;
   List<Offset> pos = [];
 
   @override
@@ -122,7 +122,7 @@ class Path2CustomPainter extends CustomPainter {
     pos = repaint.points.map((e) => e.translate(-size.width / 2, -size.height / 2)).toList();
 
     ///如果点数少于三个就绘制点  如果大于三个就绘制贝塞尔曲线，绘制辅助线
-    if (pos.length < 3) {
+    if (pos.length < 4) {
       canvas.drawPoints(
           PointMode.points,
           pos,
@@ -132,8 +132,12 @@ class Path2CustomPainter extends CustomPainter {
             ..strokeCap = StrokeCap.round);
     } else {
       Path path = Path();
+      /// 画bezier曲线  从0 到 2  控制点在1
+      // path.moveTo(pos[0].dx, pos[0].dy);
+      // path.quadraticBezierTo(pos[1].dx, pos[1].dy, pos[2].dx, pos[2].dy);
+
       path.moveTo(pos[0].dx, pos[0].dy);
-      path.quadraticBezierTo(pos[1].dx, pos[1].dy, pos[2].dx, pos[2].dy);
+      path.cubicTo(pos[1].dx, pos[1].dy, pos[2].dx, pos[2].dy, pos[3].dx, pos[3].dy);
       canvas.drawPath(
           path,
           Paint()
@@ -141,7 +145,7 @@ class Path2CustomPainter extends CustomPainter {
             ..style = PaintingStyle.stroke
             ..strokeWidth = 2);
 
-      ///画线
+
       canvas.drawPoints(
           PointMode.points,
           pos,
@@ -149,6 +153,7 @@ class Path2CustomPainter extends CustomPainter {
             ..color = Colors.purple
             ..strokeWidth = 8
             ..strokeCap = StrokeCap.round);
+      ///画控制点到 bezier端点线
       canvas.drawPoints(PointMode.polygon, pos, Paint()..color = Colors.purple);
     }
   }

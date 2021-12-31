@@ -10,6 +10,7 @@ class BallPage extends StatefulWidget {
 class _BallPageState extends State<BallPage> with SingleTickerProviderStateMixin {
   static const Duration _duration = Duration(seconds: 1);
   late AnimationController controller;
+  late Offset _localPosition;
 
   @override
   void initState() {
@@ -21,7 +22,7 @@ class _BallPageState extends State<BallPage> with SingleTickerProviderStateMixin
   }
 
   play() {
-    balls = getEnoughBall(100, 150, 135);
+    balls = getEnoughBall(100, _localPosition.dx, _localPosition.dy);
     controller.value = 0.0;
     controller.forward();
 
@@ -42,13 +43,15 @@ class _BallPageState extends State<BallPage> with SingleTickerProviderStateMixin
         title: Text('layer painter'),
       ),
       body: Container(
+        // decoration: BoxDecoration(),
         width: double.infinity,
         height: double.infinity,
         color: Colors.white,
-        child: Center(
+        child: GestureDetector(
+          onPanDown: _onPanDown,
+          onPanUpdate: _onPanUpdate,
           child: CustomPaint(
-            foregroundPainter: new _MyPaint(controller.value),
-            size: Size(360, 470),
+            painter: _MyPaint(controller.value),
           ),
         ),
       ),
@@ -64,6 +67,14 @@ class _BallPageState extends State<BallPage> with SingleTickerProviderStateMixin
         },
       ),
     );
+  }
+
+  void _onPanDown(DragDownDetails details) {
+    _localPosition = details.localPosition;
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+
   }
 }
 

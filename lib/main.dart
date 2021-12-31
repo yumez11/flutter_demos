@@ -49,8 +49,8 @@ class _TransitionsHomePageState extends State<_TransitionsHomePage> {
             child: ListView(
               children: <Widget>[
                 _TransitionListTile(
-                  title: 'berser',
-                  subtitle: 'berser page',
+                  title: '贝塞尔曲线',
+                  subtitle: '2阶与3阶贝塞尔曲线',
                   onTap: () {
                     pushPage(Path2());
                   },

@@ -13,7 +13,7 @@ class DartTreePage extends StatefulWidget {
 class DartTreePageState extends State<DartTreePage> with SingleTickerProviderStateMixin {
   Offset position = Offset.zero;
   late AnimationController controller;
-  Duration _duration = Duration(seconds: 10);
+  Duration _duration = Duration(seconds: 1);
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class DartTreePageState extends State<DartTreePage> with SingleTickerProviderSta
   }
 
   void _onPanDown(DragDownDetails details) {
-    play();
+    // play();
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
@@ -64,7 +64,7 @@ class DartTreePageState extends State<DartTreePage> with SingleTickerProviderSta
 class Path2CustomPainter extends CustomPainter {
   Path2CustomPainter(this.tapPosition, this.duration);
   int mainLineLong = 50;
-  int maxLevel = 5;
+  int maxLevel = 10;
   double duration = 0.0;
 
   Offset tapPosition;

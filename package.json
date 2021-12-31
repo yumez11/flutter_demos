@@ -1,0 +1,35 @@
+{
+  "name": "vue-blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "highlight.js": "^11.3.1",
+    "html-loader": "^2.0.1",
+    "node-sass": "^6.0.1",
+    "sass-loader": "^10.2.0",
+    "sass-resources-loader": "^2.2.4",
+    "style-loader": "^3.3.1",
+    "vue": "^3.0.0",
+    "vue-codemirror": "^4.0.6",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "compression-webpack-plugin": "^9.2.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

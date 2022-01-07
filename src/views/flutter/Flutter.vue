@@ -1,12 +1,23 @@
 <template>
-  <div class="about">
-    <h1>This is an flutter page</h1>
+  <div class="flutter">
+    <a :href=flutterURL target='_blank' class='demo-name' title='效果预览'> go flutter </a>
+<!--    <iframe src="./flutterHTML/index.html"></iframe>-->
   </div>
 </template>
 
 <script>
+import Navi from "@/components/Navi";
+
 export default {
-  name: "Flutter"
+  name: "Flutter",
+  components: {
+    Navi,
+  },
+  data(){
+    return {
+      flutterURL: './flutterHTML/index.html'
+    }
+  }
 }
 </script>
 

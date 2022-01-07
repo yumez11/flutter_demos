@@ -1,8 +1,7 @@
 <template>
-  <div class="about">
-    <h1>404</h1>
-    <h2>This is an Error page</h2>
-    <p>请检查您访问的链接</p>
+  <div class="err404">
+    <h3>404</h3>
+    <h2>哦吼, 路不对了嗷    ┗|｀O′|┛~~  </h2>
   </div>
 </template>
 
@@ -13,5 +12,13 @@ export default {
 </script>
 
 <style scoped>
-
+.err404{
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  line-height: 100%;
+  justify-content: center;
+  align-items: center;
+}
 </style>

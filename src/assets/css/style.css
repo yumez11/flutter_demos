@@ -490,7 +490,8 @@ article .different-posts {
   width: 50rem;
   max-width: 100%;
   margin: 0 auto;
-  margin-top: 0.5rem;
+  padding: 1rem;
+  /*margin-top: 0.5rem;*/
 }
 .header__link {
   margin: 0 1rem;
@@ -524,6 +525,10 @@ article .different-posts {
 .header__link:hover:visited {
   color: #33474d;
 }
+.header__link:active{
+  color: darkred;
+}
+
 @font-face {
   font-family: "Noto Sans";
   src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
